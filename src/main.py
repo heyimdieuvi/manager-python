@@ -1,7 +1,7 @@
 from StudentManagement import StudentManagement
 from Student import Student
 
-studentmanagement = StudentManagement()
+studentManagement = StudentManagement()
 
 def menu():
     print("1. Add a student")
@@ -13,42 +13,42 @@ def menu():
     print("7. Search student by mark")
     print("Your option: ")
     option = int(input())
-
-    if option == 1:
+    
+    if option == 1: 
         id = int(input("Enter ID: "))
         name = input("Enter Name:")
         birth = input("Enter year of birth: ")
         mark = float(input("Enter mark: "))
         student = Student(id, name, birth, mark)
-
-        studentmanagement.addStudent(student)
+        
+        studentManagement.addStudent(student)
     elif option == 2:
         id = int(input("Enter ID: "))
-        studentmanagement.removeStudent(id)
+        studentManagement.removeStudent(id)
     elif option == 3:
         id = int(input("Enter ID: "))
         name = input("Enter Name:")
         birth = input("Enter year of birth: ")
         mark = float(input("Enter mark: "))
         student = Student(id, name, birth, mark)
-
-        studentmanagement.updataStudent(student)
+        
+        studentManagement.updateStudent(student)
     elif option == 4:
-        studentmanagement.viewStudent()
+        studentManagement.viewStudent()
     elif option == 5:
         id = int(input("Enter ID: "))
-        studentmanagement.searchStudentById()
+        studentManagement.searchStudentById()
     elif option == 6:
         name = input("Enter Name: ")
-        studentmanagement.seachStudentByName()
+        studentManagement.searchStudentByName()
     elif option == 7:
         mark = float(input("Enter Mark: "))
-        studentmanagement.searchStudentByMark()
+        studentManagement.searchStudentByMark()
     else:
-        print("Invaild option")
-
+        print("Invalid option")
+        
+        
 
 if __name__ == "__main__":
     while True:
         menu()
-        

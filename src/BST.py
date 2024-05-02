@@ -4,11 +4,13 @@ from Linkedlist import ListNode
 from Student import Student
 from Queue import Queue
 
+
 class TreeNode:
-  def __init__(self, data):
-    self.data = data
-    self.left = None
-    self.right = None
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
 
 class BinarySearchTree:
     def __init__(self):
@@ -21,62 +23,118 @@ class BinarySearchTree:
             self._insert_recursive(self.root, data)
 
     def _insert_recursive(self, node, data):
-        if data.id < node.data.id:
+        if data < node.data:
             if node.left is None:
                 node.left = TreeNode(data)
             else:
                 self._insert_recursive(node.left, data)
-        elif data.id > node.data.id:
+        elif data > node.data:
             if node.right is None:
                 node.right = TreeNode(data)
             else:
                 self._insert_recursive(node.right, data)
 
-    def _search(self, name, node, result):
+    def _search(self, data, node):
+        if node is None:
+            return None
+        if data == node.data.id:
+            return node.data
+        if data < node.data.id:
+            return self._search(data, node.left)
+        if data > node.data.id:
+            return self._search(data, node.right)
+        return None
+
+    def search(self, data):
+        return self._search(data, self.root)
+
+    def _searchByName(self, data, node, result):
         if node is not None:
-            self._search(name, node.left, result)
-            self._search(name, node.right, result)
-            if name in node.data.name:
+            self._searchByName(data, node.left, result)
+            self._searchByName(data, node.right, result)
+            if data in node.data.name:
                 result.append(node.data)
         return result
 
-    def search(self, name):
-        return self._search(name, self.root, [])
+    def searchByName(self, data):
+        return self._searchByName(data, self.root, [])
+
+    def _searchByMark(self, data, node, result):
+        if node is not None:
+            self._searchByMark(data, node.left, result)
+            self._searchByMark(data, node.right, result)
+            if data == node.data.mark:
+                result.append(node.data)
+        return result
+
+    def searchByMark(self, data):
+        return self._searchByMark(data, self.root, [])
 
     def _inOrder(self, node):
-      if node is not None:
-        self._inOrder(node.left)
-        node.data.display()
-        self._inOrder(node.right)
+        if node is not None:
+            self._inOrder(node.left)
+            node.data.display()
+            self._inOrder(node.right)
 
     def printInOrder(self):
-      self._inOrder(self.root)
-      print()
+        self._inOrder(self.root)
+        print()
 
     def breadth_first_traversal(self):
         if self.root is None:
             return
-        
+
         queue = Queue()  # Sử dụng class Queue đã triển khai
         queue.enqueue(self.root)
 
         while not queue.isEmpty():
             node = queue.dequeue()
-            node.data.display()
+            print(node.data)
 
             if node.left:
                 queue.enqueue(node.left)
             if node.right:
                 queue.enqueue(node.right)
 
+    def remove(self, data):
+        self.root = self._remove_recursive(self.root, data)
 
-student1 = Student(1, "Alice", "2000-01-01", 10)
-student2 = Student(5, "Bob", "2001-05-15", 2)
-student3 = Student(4, "Charlie", "1999-11-30", 3)
+    def _remove_recursive(self, node, data):
+        if node is None:
+            return None
+        if data < node.data:
+            node.left = self._remove_recursive(node.left, data)
+        if data > node.data:
+            node.right = self._remove_recursive(node.right, data)
+        if data == node.data:
+            if node.left is None:
+                return node.right
+            if node.right is None:
+                return node.left
 
-test = BinarySearchTree()
-test.insert(student1)
-test.insert(student2)
-test.insert(student3)
+            min_node = self._find_min(node.right)
+            node.data = min_node.data
+            node.right = self._remove_recursive(node.right, min_node.data)
 
-test.breadth_first_traversal()
+        return node
+
+    def _find_min(self, node):
+        if node.left is None:
+            return node
+        return self._find_min(node.left)
+
+    def update(self, data):
+        self.root = self._update_recursive(self.root, data)
+
+    def _update_recursive(self, node, data):
+        if node is None:
+            return None
+        if data < node.data:
+            node.left = self._update_recursive(node.left, data)
+        if data > node.data:
+            node.right = self._update_recursive(node.right, data)
+        if data == node.data:
+            node.data = data
+            node.left = self._update_recursive(node.left, data)
+            node.right = self._update_recursive(node.right, data)
+        return node
