@@ -6,7 +6,7 @@ class Student:
         self.mark = mark
 
     def display(self):
-        print(f"{self.id},{self.name},{self.birth},{self.mark}") 
+        print(f"{self.id:<10}|{self.name:<20}|{self.birth:<20}|{self.mark:<5}") 
     
 
 
