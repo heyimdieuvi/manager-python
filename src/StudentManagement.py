@@ -59,6 +59,28 @@ class StudentManagement():
         for student in list_student:
             student.display()
 
+    def serialize(self, node, file):
+        if node is not None:
+            file.write(f"{node.data.id},{node.data.name},{node.data.birth},{node.data.mark}\n")
+            self.serialize(node.left, file)
+            self.serialize(node.right, file)
+
+    def writeToFile(self, filename):
+        with open(filename, 'w') as file:
+            self.serialize(self.listStudent.root, file)
+    
+    def deserialize(self, file):
+        lines = file.readlines() #doc tat ca cac dong trong file
+        for line in lines:
+            id, name, birth, mark = line.strip().split(',')
+            self.listStudent.insert(Student(int(id), name, birth, float(mark)))
+
+    def loadFromFile(self, filename):
+        with open(filename, 'r') as file:
+            self.deserialize(file)
+
+
+
 
 # list1 = StudentManagement()
 # student1 = Student(1, "A", "2000", 8.0)
