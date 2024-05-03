@@ -6,7 +6,7 @@ class Student:
         self.mark = mark
 
     def display(self):
-        print(f"{self.id}, {self.name}, {self.birth}, {self.mark}") 
+        print(f" ID: {self.id}, Name: {self.name}, Birth: {self.birth}, Mark: {self.mark}") 
         
     def __eq__(self, other):
         return self.id == other.id
