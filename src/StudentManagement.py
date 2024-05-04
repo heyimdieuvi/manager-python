@@ -1,24 +1,53 @@
 from BST import BinarySearchTree
 from Student import Student
+from HandleInput import Validation
 
 class StudentTree(BinarySearchTree):
   def __init__(self):
     super().__init__()
 
-  def addStudent(self, student):
-        self.insert(student)
+  def checkInputID(self):
+      check = True
+      while check:
+          id = Validation.getInt("Enter ID: ", 1, 9999)
+          if self.search(id) is None:
+              check = False
+          else: 
+              print("This student's ID is exist.")
+      return id
 
-  def removeStudent(self, id):
+  def addStudent(self):
+      id = self.checkInputID()
+      name = input("Enter Name: ")
+      birth = Validation.getBirth()
+      mark = Validation.getFloat("Enter student's mark: ", 0, 10)
+      self.insert(Student(id, name, birth, mark))
+      print("Add new Student successfully!")
+
+  def removeStudent(self):
+        id = Validation.getInt("Enter ID: ", 1, 9999)
         student = self.search(id)
         if student is None:
             print("Student not found")
             return
         self.remove(student)
     
-  def updateStudent(self, student):
-        self.update(student)
+  def updateStudent(self):
+        id = Validation.getInt("Enter ID: ", 1, 9999)
+        if self.search(id) is None:
+            print("Student's ID not found.")
+            return
+        else:
+            name = input("Enter Name: ")
+            birth = input("Enter year of birth: ")
+            mark = Validation.getFloat("Enter student's mark: ", 0, 10)
+            update_student = Student(id, name, birth, mark)
+            self.update(update_student)
+            print("Update Successfully!!!")
 
   def viewStudentInorder(self):
+        print(f"{'ID':<10}|{'Name':<20}|{'Date of Birth':<20}|{'Mark':<5}") 
+        print("----------------------------------------------------------")       
         self.printInOrder()
 
   def displayAllStudent(self):
@@ -27,24 +56,33 @@ class StudentTree(BinarySearchTree):
           return
       else:
         print(f"{'ID':<10}|{'Name':<20}|{'Date of Birth':<20}|{'Mark':<5}")
+        print("----------------------------------------------------------") 
         return self.breadth()
   
-  #chua xu ly input
+
   def searchStudentById(self):
-        id = int(input("Enter ID to search: "))
+        id = Validation.getInt("Enter ID: ", 1, 9999)
         if self.search(id) is None:
             print("This student id is not exist")
             return
         else: 
             return self.search(id).display() 
 
-  def searchStudentByName(self, name):
-        list_student = self.searchByName(name)
-        for student in list_student:
-            student.display()  
+  def searchStudentByName(self):
+        name = input("Enter student name to search: ").lower()
+        list = self.searchByName(name)
+        if len(list) == 0:
+            print("Not Found!!!")
+            return
+        for student in list:
+            student.display()
             
-  def searchStudentByMark(self, mark):
+  def searchStudentByMark(self):
+        mark = Validation.getFloat("Enter student's mark: ", 0, 10)
         list_student = self.searchByMark(mark)
+        if len(list_student) == 0:
+            print("Not Found!!!") 
+            return      
         for student in list_student:
             student.display()    
 
@@ -70,8 +108,4 @@ class StudentTree(BinarySearchTree):
     with open(filename, 'r') as file:
       self.deserialize(file)
 
-
-# test = StudentTree()
-# test.loadFromFile('students.txt')
-# test.searchStudentById()
 

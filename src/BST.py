@@ -1,6 +1,5 @@
 from Queue import Queue
 
-
 class TreeNode:
     def __init__(self, data):
         self.data = data
@@ -52,7 +51,7 @@ class BinarySearchTree:
         if node is not None:
             self._searchByName(data, node.left, result)
             self._searchByName(data, node.right, result)
-            if data in node.data.name:
+            if data in node.data.name.lower():
                 result.append(node.data)
         return result
 
@@ -78,7 +77,6 @@ class BinarySearchTree:
 
     def printInOrder(self):
         self._inOrder(self.root)
-        print()
 
     #breadth first search display
 
@@ -101,16 +99,16 @@ class BinarySearchTree:
     def _remove_recursive(self, node, data):
         if node is None:
             return None
-        if data < node.data:
+        if data.id < node.data.id:
             node.left = self._remove_recursive(node.left, data)
-        if data > node.data:
+        if data.id > node.data.id:
             node.right = self._remove_recursive(node.right, data)
-        if data == node.data:
+        if data.id == node.data.id:
             if node.left is None:
                 return node.right
             if node.right is None:
                 return node.left
-
+            
             min_node = self._find_min(node.right)
             node.data = min_node.data
             node.right = self._remove_recursive(node.right, min_node.data)
@@ -128,11 +126,11 @@ class BinarySearchTree:
     def _update_recursive(self, node, data):
         if node is None:
             return None
-        if data < node.data:
+        if data.id < node.data.id:
             node.left = self._update_recursive(node.left, data)
-        if data > node.data:
+        if data.id > node.data.id:
             node.right = self._update_recursive(node.right, data)
-        if data == node.data:
+        if data.id == node.data.id:
             node.data = data
             node.left = self._update_recursive(node.left, data)
             node.right = self._update_recursive(node.right, data)
