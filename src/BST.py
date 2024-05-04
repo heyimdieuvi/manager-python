@@ -1,4 +1,3 @@
-from Student import Student
 from Queue import Queue
 
 
@@ -23,12 +22,12 @@ class BinarySearchTree:
             self._insert_recursive(self.root, data)
 
     def _insert_recursive(self, node, data):
-        if data < node.data:
+        if data.id < node.data.id:
             if node.left is None:
                 node.left = TreeNode(data)
             else:
                 self._insert_recursive(node.left, data)
-        elif data > node.data:
+        elif data.id > node.data.id:
             if node.right is None:
                 node.right = TreeNode(data)
             else:
@@ -44,6 +43,7 @@ class BinarySearchTree:
         if data > node.data.id:
             return self._search(data, node.right)
         return None
+        
 
     def search(self, data):
         return self._search(data, self.root)

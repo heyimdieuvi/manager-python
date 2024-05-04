@@ -4,24 +4,52 @@ from Student import Student
 class StudentTree(BinarySearchTree):
   def __init__(self):
     super().__init__()
-    
-  def addStudent(self):
-    id = int(input("Enter ID: "))
-    name = input("Enter Name:")
-    birth = input("Enter year of birth: ")
-    mark = float(input("Enter mark: "))
 
-    student = Student(id, name, birth, mark)
-    self.insert(student)
-  
+  def addStudent(self, student):
+        self.insert(student)
+
+  def removeStudent(self, id):
+        student = self.search(id)
+        if student is None:
+            print("Student not found")
+            return
+        self.remove(student)
+    
+  def updateStudent(self, student):
+        self.update(student)
+
+  def viewStudentInorder(self):
+        self.printInOrder()
+
   def displayAllStudent(self):
-    print(f"{'ID':<10}|{'Name':<20}|{'Date of Birth':<20}|{'Mark':<5}")
-    return self.breadth()
+      if self.root is None:
+          print("Student's Tree is empty!!!")
+          return
+      else:
+        print(f"{'ID':<10}|{'Name':<20}|{'Date of Birth':<20}|{'Mark':<5}")
+        return self.breadth()
   
-  def searchByID(self):
-    id = int(input("Enter ID that you want to find: "))
-    return self.search(id)
-  
+  #chua xu ly input
+  def searchStudentById(self):
+        id = int(input("Enter ID to search: "))
+        if self.search(id) is None:
+            print("This student id is not exist")
+            return
+        else: 
+            return self.search(id).display() 
+
+  def searchStudentByName(self, name):
+        list_student = self.searchByName(name)
+        for student in list_student:
+            student.display()  
+            
+  def searchStudentByMark(self, mark):
+        list_student = self.searchByMark(mark)
+        for student in list_student:
+            student.display()    
+
+  #Xu ly file
+
   def serialize(self, node, file):
     if node is not None:
       file.write(f"{node.data.id},{node.data.name},{node.data.birth},{node.data.mark}\n")
@@ -43,17 +71,7 @@ class StudentTree(BinarySearchTree):
       self.deserialize(file)
 
 
-list1 = StudentTree()
+# test = StudentTree()
+# test.loadFromFile('students.txt')
+# test.searchStudentById()
 
-# student1 = Student(1, "Alice", "2000-01-01", 10)
-# student2 = Student(5, "Bob", "2001-05-15", 2)
-# student3 = Student(4, "Charlie", "1999-11-30", 3)
-student4 = Student(10, "Vi", "1999-11-30", 10)
-
-test = StudentTree()
-test.loadFromFile('students.txt')
-# test.insert(student1)
-# test.insert(student2)
-# test.insert(student3)
-test.insert(student4)
-test.writeToFile('students.txt')

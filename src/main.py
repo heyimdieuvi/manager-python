@@ -1,7 +1,8 @@
-from StudentManagement import StudentManagement
+from StudentManagement import StudentTree
 from Student import Student
 
-studentManagement = StudentManagement()
+studentManagement = StudentTree()
+studentManagement.loadFromFile('students.txt')
 
 def menu():
     print("1. Add a student")
@@ -12,6 +13,7 @@ def menu():
     print("6. Search student by name")
     print("7. Search student by mark")
     print("Your option: ")
+    status = True
     option = int(input())
     
     if option == 1: 
@@ -26,17 +28,17 @@ def menu():
         id = int(input("Enter ID: "))
         studentManagement.removeStudent(id)
     elif option == 3:
+
         id = int(input("Enter ID: "))
         name = input("Enter Name:")
         birth = input("Enter year of birth: ")
         mark = float(input("Enter mark: "))
         student = Student(id, name, birth, mark)
-        
         studentManagement.updateStudent(student)
+
     elif option == 4:
-        studentManagement.viewStudent()
+        studentManagement.displayAllStudent()
     elif option == 5:
-        id = int(input("Enter ID: "))
         studentManagement.searchStudentById()
     elif option == 6:
         name = input("Enter Name: ")
